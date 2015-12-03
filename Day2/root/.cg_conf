@@ -1,0 +1,1 @@
+{"id":"rust","ext":"rs","version":"Rust v-1.1.0","compile":"rustc -o main *.rs","execute":"main","preview":"","command":"","file":"/home/cg/src/samples/main.rs","url":"compile_rust_online.php","mode":"rust"}
