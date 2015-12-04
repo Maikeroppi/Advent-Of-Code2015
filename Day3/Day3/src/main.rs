@@ -13,9 +13,14 @@ fn main()
     let mut cur_x = 0;
     let mut cur_y = 0;
 
+    let mut cur_robo_x = 0;
+    let mut cur_robo_y = 0;
+
     let mut houses = HashSet::new();
 
     houses.insert( HousePos { x: cur_x, y: cur_y } );
+
+    let mut normal_santa = true;
 
     for c in input.chars()
     {
@@ -31,9 +36,22 @@ fn main()
             _ => { println!("Error!"); }
         }
 
-        cur_x += move_x;
-        cur_y += move_y;
-        houses.insert( HousePos { x: cur_x, y: cur_y } );
+        if normal_santa
+        {
+            // Regular Santa
+            cur_x += move_x;
+            cur_y += move_y;
+            houses.insert( HousePos { x: cur_x, y: cur_y } );
+        }
+        else 
+        {
+            // Robo santa
+            cur_robo_x += move_x;
+            cur_robo_y += move_y;
+            houses.insert( HousePos { x: cur_robo_x, y: cur_robo_y } );
+        }
+
+        normal_santa = !normal_santa;
     }
 
     println!("Houses visited: {}", houses.len());
