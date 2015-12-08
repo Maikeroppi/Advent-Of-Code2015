@@ -11,17 +11,17 @@ fn digest_to_string(data:&md5::Digest, upper_byte:&mut u64, lower_byte:&mut u64)
     *upper_byte = 0;
 	*lower_byte = 0;
 	
-    for i in 0..8
-    {
-        *upper_byte = *upper_byte << 4 | data[i] as u64;
-    }
-	
-	for i in 8..16
+	for i in (8..16)
 	{
-		*lower_byte = *lower_byte << 4 | data[i] as u64;
+		*lower_byte = *lower_byte << 8 | data[i] as u64;
 	}
 	
-	format!("{:x}{:x}", upper_byte, lower_byte)
+	 for i in (0..8)
+    {
+        *upper_byte = *upper_byte << 8 | data[i] as u64;
+    }
+	
+	format!("{:016x}{:016x}", upper_byte, lower_byte)
 }
 
 fn main() 
@@ -33,23 +33,27 @@ fn main()
     loop
     {
         let string_data = make_string(&prefix, &current_value);
-        println!("String data: {}", string_data);
+        //println!("String data: {}", string_data);
         let digest = md5::compute(string_data.as_bytes());
 		let mut upper_byte = 0;
 		let mut lower_byte = 0;
         let digest_as_string = digest_to_string(&digest, &mut upper_byte, &mut lower_byte);
-		println!("Digest as string: {}", digest_as_string);
+		//println!("Digest as string: {}", digest_as_string);
+		//assert_eq!(digest_as_string, "3ad2e81f76bd3a870f62a1907dfae973");
         
-        //{
-        //    Ok(v) => v,
-        //    Err(e) => panic!("Invalid UTF-8 sequence: {}", e)
-        //};
-        println!("Return Value: {}", digest_as_string);
-        if true 
-        {
-            break;
-        }
-        
+		if upper_byte & 0xfffff00000000000_u64 == 0
+		{
+			println!("5 zero Hash found!: {}", digest_as_string);
+			println!("Value: {}", string_data);
+		}
+		
+		if upper_byte & 0xffffff0000000000_u64 == 0
+		{
+			println!("6 zero Hash found!: {}", digest_as_string);
+			println!("Value: {}", string_data);
+			break;
+		}
+       
         current_value += 1;
     }
     
