@@ -45,15 +45,15 @@ fn has_str_count(test_string:&str) -> bool
 	return_val
 }
 
-fn is_good_string(test_string:&str) -> bool
+fn is_good_string1(test_string:&str) -> bool
 {
 	!has_bad_string_types(&test_string) && has_str_count(test_string)
 }
 
-fn do_test(test_string:&str, should_be_nice:bool)
+fn do_test1(test_string:&str, should_be_nice:bool)
 {
-	let is_nice = is_good_string(&test_string);
-	let type_string = if is_good_string(&test_string) { "nice" } else { "naughty" };
+	let is_nice = is_good_string1(&test_string);
+	let type_string = if is_nice { "nice" } else { "naughty" };
 	let correct_string = if should_be_nice == is_nice { "CORRECT" } else { "INCORRECT" };
 	println!("{} is {}: {}", test_string, type_string, correct_string);
 }
@@ -61,24 +61,24 @@ fn do_test(test_string:&str, should_be_nice:bool)
 fn main() 
 {
 	if false {
-	    do_test("ugknbfddgicrmopn", true);
-	    do_test("aaa", true);
-	    do_test("jchzalrnumimnmhp", false);
-	    do_test("haegwjzuvuyypxyu", false);
-	    do_test("dvszwmarrgswjxmb", false);
+	    do_test1("ugknbfddgicrmopn", true);
+	    do_test1("aaa", true);
+	    do_test1("jchzalrnumimnmhp", false);
+	    do_test1("haegwjzuvuyypxyu", false);
+	    do_test1("dvszwmarrgswjxmb", false);
 	}
 
 	let f = File::open("day5input.txt").unwrap();
     let reader = BufReader::new(f);
     
-    let mut nice_count = 0;
+    let mut nice_count1 = 0;
 
     // Iterate over lines
     for line in reader.lines() {
-    	if is_good_string(&line.unwrap()) {
-    		nice_count += 1;
+    	if is_good_string1(&line.unwrap()) {
+    		nice_count1 += 1;
     	}
     }
     
-    println!("Number of Nice Words is {}", nice_count);
+    println!("Number of Nice Words for first problem is {}", nice_count1);
 }
