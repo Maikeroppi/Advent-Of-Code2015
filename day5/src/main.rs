@@ -58,27 +58,56 @@ fn do_test1(test_string:&str, should_be_nice:bool)
 	println!("{} is {}: {}", test_string, type_string, correct_string);
 }
 
+fn is_good_string2(test_string:&str) -> bool
+{
+	false
+}
+
+fn do_test2(test_string:&str, should_be_nice:bool)
+{
+	let is_nice = is_good_string2(&test_string);
+	let type_string = if is_nice { "nice" } else { "naughty" };
+	let correct_string = if should_be_nice == is_nice { "CORRECT" } else { "INCORRECT" };
+	println!("{} is {}: {}", test_string, type_string, correct_string);
+}
+
 fn main() 
 {
 	if false {
+		// Test first nice testing
 	    do_test1("ugknbfddgicrmopn", true);
 	    do_test1("aaa", true);
 	    do_test1("jchzalrnumimnmhp", false);
 	    do_test1("haegwjzuvuyypxyu", false);
 	    do_test1("dvszwmarrgswjxmb", false);
 	}
+	
+	if true {
+		// Test second nice testing
+		do_test2("qjhvhtzxzqqjkmpb", true);
+		do_test2("xxyxx", true);
+		do_test2("uurcxstgmygtbstg", false);
+		do_test2("ieodomkazucvgmuy", false);
+	}
 
 	let f = File::open("day5input.txt").unwrap();
     let reader = BufReader::new(f);
     
     let mut nice_count1 = 0;
+    let mut nice_count2 = 0;
 
     // Iterate over lines
     for line in reader.lines() {
-    	if is_good_string1(&line.unwrap()) {
+    	let unwrapped_line = line.unwrap();
+    	if is_good_string1(&unwrapped_line) {
     		nice_count1 += 1;
+    	}
+    	
+    	if is_good_string2(&unwrapped_line) {
+    		nice_count2 += 1;
     	}
     }
     
     println!("Number of Nice Words for first problem is {}", nice_count1);
+    println!("Number of Nice Words for second problem is {}", nice_count2);
 }
