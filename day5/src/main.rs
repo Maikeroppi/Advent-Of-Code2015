@@ -58,9 +58,60 @@ fn do_test1(test_string:&str, should_be_nice:bool)
 	println!("{} is {}: {}", test_string, type_string, correct_string);
 }
 
+fn has_double_letter(test_string:&str) -> bool
+{
+	let mut return_value = false;
+	let test_size = test_string.len();
+	let char_vec:Vec<char> = test_string.chars().collect();
+
+	let mut first_index = 0;
+	let mut second_index = 2;
+	
+	while second_index < test_size && !return_value
+	{
+		if char_vec[first_index] == char_vec[second_index]
+		{
+			return_value = true;
+		}
+		else
+		{
+			first_index += 1;
+			second_index += 1;
+		}
+	}
+	
+	return return_value;
+}
+
+fn has_two_char_substring(test_string:&str) -> bool
+{
+	let mut return_value = false;
+	let test_size = test_string.len();
+	
+	let mut index = 1;
+	
+	while index < test_size && !return_value
+	{
+		let search_str = &test_string[index-1..index+1];
+		let sub_str = &test_string[index+1..];
+		//println!("Sub: {}, Search: {}", sub_str, search_str);
+		if sub_str.find(search_str) != None
+		{
+			println!("Str: {}, sub_str: {}", test_string, search_str);
+			return_value = true;
+		}
+		else
+		{
+			index += 1;
+		}
+	}
+	
+	return return_value;
+}
+
 fn is_good_string2(test_string:&str) -> bool
 {
-	false
+	has_double_letter(test_string) && has_two_char_substring(test_string)
 }
 
 fn do_test2(test_string:&str, should_be_nice:bool)
