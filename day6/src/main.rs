@@ -74,6 +74,7 @@ fn run_string_parse_tests()
 fn main() 
 {
 	let mut lights = [[false; 1000]; 1000];
+	let mut light_map: Vec< Vec<u32> > = Vec::new();;
 	
 	let mut start_x: u32 = 0;
 	let mut end_x: u32 = 0;
@@ -81,6 +82,16 @@ fn main()
 	let mut end_y: u32 = 0;
 	
 	let mut out_type:SwitchType = SwitchType::Toggle;
+	
+	for i in 0..1000
+	{
+		let mut vec: Vec<u32> = Vec::new();
+		for j in 0.. 1000
+		{
+			vec.push(0);
+		}
+		light_map.push(vec);
+	}
 	
 	let f = File::open("day6input.txt").unwrap();
     let reader = BufReader::new(f);
@@ -92,21 +103,36 @@ fn main()
     	parse(&unwrapped_line, &mut out_type, &mut start_x, &mut start_y, &mut end_x, &mut end_y);
     	for i in start_y .. end_y + 1
 		{
-			
 			for j in start_x .. end_x + 1
 			{
-				let value = lights[i as usize][j as usize];
-				match out_type
+				let r = i as usize;
+				let c = j as usize;
+				let value = lights[r][c];
+				let brightness = light_map[r][c];
+				if out_type == SwitchType::TurnOn
 				{
-					SwitchType::TurnOn 	=> lights[i as usize][j as usize] = true,
-					SwitchType::TurnOff => lights[i as usize][j as usize] = false,
-					SwitchType::Toggle 	=> lights[i as usize][j as usize] = !value,
+					lights[r][c] = true;
+					light_map[r][c] += 1;
+				}
+				else if out_type == SwitchType::TurnOff
+				{
+					lights[r][c] = false;
+					if brightness > 0
+					{
+						light_map[r][c] -= 1;
+					}
+				}
+				else if out_type == SwitchType::Toggle
+				{
+					lights[r][c] = !value;
+					light_map[r][c] += 2;
 				}
 			}
 		}
     }
 	
 	let mut light_count = 0;
+	let mut total_brightness = 0;
 	for i in 0 .. 1000
 	{
 		for j in 0 .. 1000
@@ -115,8 +141,11 @@ fn main()
 			{
 				light_count += 1;
 			}
+			
+			total_brightness += light_map[i][j];
 		}
 	}
 	
-	println!("Light Count: {}", light_count);
+	println!("Part 1 - Light Count: {}", light_count);
+	println!("Part 2 - Total Brightness: {}", total_brightness); 
 }
