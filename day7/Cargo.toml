@@ -1,0 +1,12 @@
+[package]
+
+name = "day7"
+version = "0.0.1"
+authors = [ "Your name <you@example.com>" ]
+
+[dependencies]
+regex = "0.1"
+
+[[bin]]
+
+name = "day7"

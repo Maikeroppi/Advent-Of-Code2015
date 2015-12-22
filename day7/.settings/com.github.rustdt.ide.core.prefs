@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+racer_path=D\:\\Eclipse\\racer\\target\\release\\racer.exe
+sdk_path=D\:\\Program Files\\Rust stable 1.4
+sdk_src_path=D\:\\Eclipse\\rustc-1.4.0\\src
+toolchain_prefs.use_project_settings=false
